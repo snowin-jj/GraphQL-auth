@@ -1,0 +1,41 @@
+# Types
+
+type User {
+  name: String!
+  email: String!
+  password: String!
+}
+
+type UserWithoutPassword {
+  id: Int!
+  name: String!
+  email: String!
+  isVerified: Boolean
+}
+
+type Message {
+  message: String!
+}
+
+# Queries
+
+type Query {
+  getUsers: [UserWithoutPassword]
+  getUser(id: Int!): UserWithoutPassword
+}
+
+# Mutations
+
+type Mutation {
+  registerUser(
+    name: String!
+    email: String!
+    password: String!
+  ): UserWithoutPassword
+
+  authUser(email: String!, password: String!): UserWithoutPassword
+
+  logoutUser: Message!
+
+  updateUser(name: String, email: String, password: String): UserWithoutPassword
+}
