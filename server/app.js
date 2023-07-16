@@ -1,4 +1,6 @@
+require('dotenv').config();
 const { readFileSync } = require('fs');
+const path = require('path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const { graphqlHTTP } = require('express-graphql');
@@ -23,5 +25,13 @@ app.use(
     context: { req, res },
   }))
 );
+
+// Serve frontend
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client')));
+  app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../', 'client', 'index.html'));
+  });
+}
 
 module.exports = app;
